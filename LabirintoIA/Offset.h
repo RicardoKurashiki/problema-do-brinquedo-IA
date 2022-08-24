@@ -4,14 +4,14 @@
 #include <stack>
 
 class Offset {
-	int x, y;
-	std::stack<char> path_x, path_y;
+	int v, h;
+	std::stack<char> path_v, path_h;
 
 public:
 	Offset();
-	Offset(int start_x, int start_y);
-	int getX() { return x; }
-	int getY() { return y; }
+	Offset(int start_v, int start_h);
+	int getV() { return v; }
+	int getH() { return h; }
 	void move(char direction);
 	void undo();
 };

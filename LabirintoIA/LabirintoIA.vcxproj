@@ -139,10 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Context.cpp" />
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Labirinth.cpp" />
     <ClCompile Include="LabirintoIA.cpp" />
     <ClCompile Include="Offset.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Context.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Labirinth.h" />
     <ClInclude Include="Offset.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

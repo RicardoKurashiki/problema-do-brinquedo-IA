@@ -1,13 +1,13 @@
 #include "Offset.h"
 
 Offset::Offset() {
-	x = y = 0;
+	v = h = 0;
 }
 
-Offset::Offset(int start_x, int start_y)
+Offset::Offset(int start_v, int start_h)
 {
-	x = start_x;
-	y = start_y;
+	v = start_v;
+	h = start_h;
 }
 
 void Offset::move(char direction) 
@@ -15,24 +15,24 @@ void Offset::move(char direction)
 	switch (direction)
 	{
 	case 'N':
-		--x;
-		path_x.push(x);
-		path_y.push(y);
+		--v;
+		path_v.push(v);
+		path_h.push(h);
 		break;
 	case 'S':
-		++x;
-		path_x.push(x);
-		path_y.push(y);
+		++v;
+		path_v.push(v);
+		path_h.push(h);
 		break;
 	case 'W':
-		--y;
-		path_x.push(x);
-		path_y.push(y);
+		--h;
+		path_v.push(v);
+		path_h.push(h);
 		break;
 	case 'E':
-		++y;
-		path_x.push(x);
-		path_y.push(y);
+		++h;
+		path_v.push(v);
+		path_h.push(h);
 		break;
 	default:
 		break;
@@ -41,8 +41,8 @@ void Offset::move(char direction)
 
 void Offset::undo() 
 {
-	x = path_x.top();
-	y = path_y.top();
-	path_x.pop();
-	path_y.pop();
+	v = path_v.top();
+	h = path_h.top();
+	path_v.pop();
+	path_h.pop();
 }
