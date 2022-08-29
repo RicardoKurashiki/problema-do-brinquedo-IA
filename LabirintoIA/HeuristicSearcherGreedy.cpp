@@ -73,15 +73,6 @@ Coordinate HeuristicSearcherGreedy::makeMovement()
 			break;
 		}
 	}
-	
-	//ESCOLHAS FEITAS PELO PROGRAMA
-	for (int i = 0; i < gridValues.size(); i++)
-	{
-		std::cout << contextMovements[i] << ": " << gridValues[i] << std::endl;
-	}
-
-	std::cout << "ESCOLHI IR PARA " << movementChosen << " COM VALOR DE " << minValue << std::endl;
-	
 
 	coord.move(movementChosen);
 	
