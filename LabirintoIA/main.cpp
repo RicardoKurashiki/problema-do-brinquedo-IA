@@ -22,6 +22,7 @@ int main()
 
 	Coordinate searcherMovement;
 	Context labyrinthContext;
+	int iterationCounter = 0;
 
 	Labyrinth labyrinth = Labyrinth();
 	BlindSearcherDeep deepSearch = BlindSearcherDeep();
@@ -49,14 +50,17 @@ int main()
 		// Método de busca "pensa" qual o próximo movimento.
 		widthSearch.handle();
 		Sleep(20);
+		iterationCounter++;
 	}
 
+	cout << "Resolveu com " << iterationCounter << " iteracoes.\n";
 	cout << "Aperte ENTER para continuar";
 	cin.ignore();
 
 	labyrinth = Labyrinth();
 	labyrinthContext = labyrinth.getCurrentContext();
 	deepSearch.receiveContext(labyrinthContext);
+	iterationCounter = 0;
 	
 	// Busca cega por profundidade
 	while (!labyrinth.solutionFound())
@@ -74,8 +78,10 @@ int main()
 		// Método de busca "pensa" qual o próximo movimento.
 		deepSearch.handle();
 		Sleep(20);
+		iterationCounter++;
 	}
 	
+	cout << "Resolveu com " << iterationCounter << " iteracoes.\n";
 	cout << "Aperte ENTER para continuar";
 	cin.ignore();
 
@@ -86,6 +92,7 @@ int main()
 	labyrinthGoalContext = labyrinth.getGoalContext();
 	greedySearch.receiveContext(labyrinthContext);
 	greedySearch.receiveGoalContext(labyrinthGoalContext);
+	iterationCounter = 0;
 	
 	// Busca heuristica Greedy
 	while (!labyrinth.solutionFound())
@@ -103,8 +110,10 @@ int main()
 		// Método de busca "pensa" qual o próximo movimento.
 		greedySearch.handle();
 		Sleep(20);
+		iterationCounter++;
 	}
 
+	cout << "Resolveu com " << iterationCounter << " iteracoes.\n";
 	cout << "Aperte ENTER para continuar";
 	cin.ignore();
 
@@ -114,6 +123,7 @@ int main()
 	aStarSearch.receiveContext(labyrinthContext);
 	aStarSearch.receiveStartContext(labyrinthContext);
 	aStarSearch.receiveGoalContext(labyrinthGoalContext);
+	iterationCounter = 0;
 
 	// Busca heuristica AStar
 	while (!labyrinth.solutionFound())
@@ -131,7 +141,13 @@ int main()
 		// Método de busca "pensa" qual o próximo movimento.
 		aStarSearch.handle();
 		Sleep(20);
+		iterationCounter++;
 	}
 
-	cout << "Jogo finalizado.";
+	cout << "Resolveu com " << iterationCounter << " iteracoes.\n";
+	cout << "Jogo finalizado.\n";
+	cout << "Aperte ENTER para continuar";
+	cin.ignore();
+	system("cls");
+	labyrinth.showSolution(aStarSearch.m_contextHistory);
 }
