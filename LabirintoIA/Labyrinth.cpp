@@ -14,8 +14,8 @@ Labyrinth::Labyrinth()
 		"X X     X XXX  X    X",
 		"X X X X X   XX XX XXX",
 		"X X XXX X X     X   X",
-		"X X X X X XXXXX XXX X",
-		"E     X X   X X X   X",
+		"E X X X X XXXXX XXX X",
+		"X     X X   X X X   X",
 		"X XXXXX XXX X XXX X X",
 		"X X       X X   X X X",
 		"X   XXX X X XXX X X S",
@@ -26,9 +26,9 @@ Labyrinth::Labyrinth()
 		"XXXXXXXXXXXXXXXXXXXXX"
 	};
 
-	for (int line = 0; line < m_labyrinth.size() - 1; line++)
+	for (int line = 0; line < m_labyrinth.size(); line++)
 	{
-		for (int column = 0; column < m_labyrinth[line].size() - 1; column++)
+		for (int column = 0; column < m_labyrinth[line].size(); column++)
 		{
 			if (m_labyrinth[line][column] == 'E')
 			{
