@@ -30,17 +30,21 @@ int main()
 	widthSearch.receiveContext(labyrinthContext);
 
 	//// Busca cega por largura
-	//while (!labyrinth.solutionFound())
-	//{
-	//	// Método de busca seleciona que movimento fazer.
-	//	searcherMovement;
-	//	// Labirinto recebe o movimento e devolve o contexto.
-	//	labyrinth.receiveMovement(searcherMovement);
-	//	labyrinthContext = labyrinth.getCurrentContext();
+	while (!labyrinth.solutionFound())
+	{
+		//system("cls");
+		// Método de busca seleciona que movimento fazer.
+		searcherMovement = widthSearch.makeMovement();
+		// Labirinto recebe o movimento e devolve o contexto.
+		labyrinth.receiveMovement(searcherMovement);
+		labyrinthContext = labyrinth.getCurrentContext();
 
-	//	// Método de busca recebe o contexto devolvido.
-	//	// Método de busca "pensa" qual o próximo movimento.
-	//}
+		// Método de busca recebe o contexto devolvido.
+		widthSearch.receiveContext(labyrinthContext);
+		// Método de busca "pensa" qual o próximo movimento.
+		widthSearch.handle();
+		//Sleep(500);
+	}
 
 	labyrinth = Labyrinth();
 	labyrinthContext = labyrinth.getCurrentContext();

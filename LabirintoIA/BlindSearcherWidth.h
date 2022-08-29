@@ -11,8 +11,8 @@ public:
 	Coordinate makeMovement();
 	void handle();
 private:
-	void removeLastMovement(Context& context, char move);
-	std::vector<Context> lastContexts;
-	char lastMov;
+	void removeMovePossibilitie(Context& context, char move);
+	std::vector<Context> m_contextHistory;
+	char m_lastMovement;
 };
 
