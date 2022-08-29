@@ -7,6 +7,7 @@
 #include "BlindSearcherDeep.h"
 #include "BlindSearcherWidth.h"
 #include "HeuristicSearcherGreedy.h"
+#include "HeuristicSearcherAStar.h"
 
 using namespace std;
 
@@ -26,6 +27,7 @@ int main()
 	BlindSearcherDeep deepSearch = BlindSearcherDeep();
 	BlindSearcherWidth widthSearch = BlindSearcherWidth();
 	HeuristicSearcherGreedy greedySearch = HeuristicSearcherGreedy();
+	HeuristicSearcherAStar aStarSearch = HeuristicSearcherAStar();
 	
 	// Joga para o método de busca o contexto inicial.
 	labyrinthContext = labyrinth.getCurrentContext();
@@ -34,7 +36,8 @@ int main()
 	//// Busca cega por largura
 	while (!labyrinth.solutionFound())
 	{
-		//system("cls");
+		system("cls");
+		cout << "BUSCA CEGA POR LARGURA" << endl << endl;
 		// Método de busca seleciona que movimento fazer.
 		searcherMovement = widthSearch.makeMovement();
 		// Labirinto recebe o movimento e devolve o contexto.
@@ -45,17 +48,21 @@ int main()
 		widthSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		widthSearch.handle();
-		//Sleep(500);
+		Sleep(20);
 	}
+
+	cout << "Aperte ENTER para continuar";
+	cin.ignore();
 
 	labyrinth = Labyrinth();
 	labyrinthContext = labyrinth.getCurrentContext();
 	deepSearch.receiveContext(labyrinthContext);
-
+	
 	// Busca cega por profundidade
 	while (!labyrinth.solutionFound())
 	{
-		//system("cls");
+		system("cls");
+		cout << "BUSCA CEGA POR PROFUNDIDADE" << endl << endl;
 		// Método de busca seleciona que movimento fazer.
 		searcherMovement = deepSearch.makeMovement();
 		// Labirinto recebe o movimento e devolve o contexto.
@@ -66,19 +73,25 @@ int main()
 		deepSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		deepSearch.handle();
-		//Sleep(10);
+		Sleep(20);
 	}
+	
+	cout << "Aperte ENTER para continuar";
+	cin.ignore();
+
+	Context labyrinthGoalContext;
 
 	labyrinth = Labyrinth();
 	labyrinthContext = labyrinth.getCurrentContext();
-	Context labyrinthGoalContext = labyrinth.getGoalContext();
+	labyrinthGoalContext = labyrinth.getGoalContext();
 	greedySearch.receiveContext(labyrinthContext);
 	greedySearch.receiveGoalContext(labyrinthGoalContext);
 	
 	// Busca heuristica Greedy
 	while (!labyrinth.solutionFound())
 	{
-		//system("cls");
+		system("cls");
+		cout << "BUSCA HEURISTICA GREEDY" << endl << endl;
 		// Método de busca seleciona que movimento fazer.
 		searcherMovement = greedySearch.makeMovement();
 		// Labirinto recebe o movimento e devolve o contexto.
@@ -89,148 +102,36 @@ int main()
 		greedySearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		greedySearch.handle();
-		//Sleep(10);
+		Sleep(20);
 	}
 
-	cout << "Jogo finalizado, resultado: \n";
+	cout << "Aperte ENTER para continuar";
+	cin.ignore();
+
+	labyrinth = Labyrinth();
+	labyrinthContext = labyrinth.getCurrentContext();
+	labyrinthGoalContext = labyrinth.getGoalContext();
+	aStarSearch.receiveContext(labyrinthContext);
+	aStarSearch.receiveStartContext(labyrinthContext);
+	aStarSearch.receiveGoalContext(labyrinthGoalContext);
+
+	// Busca heuristica AStar
+	while (!labyrinth.solutionFound())
+	{
+		system("cls");
+		cout << "BUSCA HEURISTICA A*" << endl << endl;
+		// Método de busca seleciona que movimento fazer.
+		searcherMovement = aStarSearch.makeMovement();
+		// Labirinto recebe o movimento e devolve o contexto.
+		labyrinth.receiveMovement(searcherMovement);
+		labyrinthContext = labyrinth.getCurrentContext();
+
+		// Método de busca recebe o contexto devolvido.
+		aStarSearch.receiveContext(labyrinthContext);
+		// Método de busca "pensa" qual o próximo movimento.
+		aStarSearch.handle();
+		Sleep(20);
+	}
+
+	cout << "Jogo finalizado.";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	//// COORDENADAS
-	//Offset coords;
-
-	//// VETOR DO LABIRINTO
-	//vector<string> labirinto = {
-	//	"XXXXXXXXXXXXXXXXXXXXX",
-	//	"X     X     X     X X",
-	//	"XX XX XXXXX X X X   X",
-	//	"X   X       XXX XXX X",
-	//	"X X X XXXXXXX   X   X",
-	//	"X X   X   X X X   X X",
-	//	"X XXXXX X X   XXXXX X",
-	//	"X X     X XXX  X    X",
-	//	"X X X X X   XX XX XXX",
-	//	"X X XXX X X     X   X",
-	//	"E X X X X XXXXX XXX X",
-	//	"X     X X   X X X   X",
-	//	"X XXXXX XXX X XXX X X",
-	//	"X X       X X   X X X",
-	//	"X   XXX X X XXX X X S",
-	//	"XXX X X X X X X X XXX",
-	//	"X X   X X   X   X   X",
-	//	"X XXX XXXXXXXXX XXX X",
-	//	"X                 X X",
-	//	"XXXXXXXXXXXXXXXXXXXXX"
-	//};
-
-	//vector<string> labirinto_layout = labirinto;
-
-	//// PROCURA PELA ENTRADA
-	//for (int y = 0; y < labirinto.size() - 1; ++y)
-	//{
-	//	for (int x = 0; x < labirinto[y].size() - 1; ++x)
-	//	{
-	//		if (labirinto[x][y] == 'E')
-	//		{
-	//			coords = Offset(x, y);
-	//			labirinto[coords.getX()][coords.getY()] = '*';
-	//			labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//			cout << "Entrada: (" << coords.getX() << ", " << coords.getY() << ")" << endl << endl;
-	//		}
-	//	}
-	//}
-
-	//bool isSearching = true;
-
-	//while (isSearching)
-	//{
-	//	// CIMA
-	//	if (isValid(labirinto[coords.getX() - 1][coords.getY()]))
-	//	{
-	//		if (isFinished(labirinto[coords.getX() - 1][coords.getY()]))
-	//		{
-	//			isSearching = false;
-	//			coords.move('N');
-	//			labirinto[coords.getX()][coords.getY()] = '*';
-	//			labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//			break;
-	//		}
-	//		coords.move('N');
-	//		labirinto[coords.getX()][coords.getY()] = '*';
-	//		labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//	}
-	//	// BAIXO
-	//	else if (isValid(labirinto[coords.getX() + 1][coords.getY()]))
-	//	{
-	//		if (isFinished(labirinto[coords.getX() + 1][coords.getY()]))
-	//		{
-	//			isSearching = false;
-	//			coords.move('S');
-	//			labirinto[coords.getX()][coords.getY()] = '*';
-	//			labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//			break;
-	//		}
-	//		coords.move('S');
-	//		labirinto[coords.getX()][coords.getY()] = '*';
-	//		labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//	}
-	//	// DIREITA
-	//	else if (isValid(labirinto[coords.getX()][coords.getY() + 1]))
-	//	{
-	//		if (isFinished(labirinto[coords.getX()][coords.getY() + 1]))
-	//		{
-	//			isSearching = false;
-	//			coords.move('E');
-	//			labirinto[coords.getX()][coords.getY()] = '*';
-	//			labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//			break;
-	//		}
-	//		coords.move('E');
-	//		labirinto[coords.getX()][coords.getY()] = '*';
-	//		labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//	}
-	//	// ESQUERDA
-	//	else if (isValid(labirinto[coords.getX()][coords.getY() - 1]))
-	//	{
-	//		if (isFinished(labirinto[coords.getX()][coords.getY() - 1]))
-	//		{
-	//			isSearching = false;
-	//			coords.move('W');
-	//			labirinto[coords.getX()][coords.getY()] = '*';
-	//			labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//			break;
-	//		}
-	//		coords.move('W');
-	//		labirinto[coords.getX()][coords.getY()] = '*';
-	//		labirinto_layout[coords.getX()][coords.getY()] = '*';
-	//	}
-	//	else
-	//	{
-	//		labirinto_layout[coords.getX()][coords.getY()] = ' ';
-	//		coords.undo();
-	//	}
-	//	// Descomentar codigo abaixo para ver o algoritmo
-	//	// for (int i = 0; i < labirinto_layout.size(); ++i) cout << labirinto_layout[i] << endl;
-	//	// cout << endl;
-	//}
-
-	//cout << "Resultado do programa:" << endl << endl;
-	//for (int i = 0; i < labirinto_layout.size(); ++i) cout << labirinto_layout[i] << endl;
-	//cout << endl << "Saida: (" << coords.getX() << ", " << coords.getY() << ")" << endl;

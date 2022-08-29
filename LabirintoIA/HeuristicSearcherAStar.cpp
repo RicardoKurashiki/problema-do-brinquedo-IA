@@ -2,31 +2,103 @@
 
 HeuristicSearcherAStar::HeuristicSearcherAStar()
 {
+	gridValues.clear();
 	m_lastMovement = 'Z';
-	m_minElementIndex = 0;
 }
 
 void HeuristicSearcherAStar::receiveContext(Context recContext)
 {
-	removeMovePossibilitie(recContext, m_lastMovement);
-	calculatedDistanceFromObjective(recContext);
+	removeMovePossibilities(recContext, m_lastMovement);
 	m_contextHistory.push_back(recContext);
+}
+
+
+void HeuristicSearcherAStar::receiveGoalContext(Context goalContext)
+{
+	m_goalContext = goalContext;
+}
+
+void  HeuristicSearcherAStar::receiveStartContext(Context startContext) 
+{
+	m_startContext = startContext;
 }
 
 Coordinate HeuristicSearcherAStar::makeMovement()
 {
+	gridValues.clear();
+	char movementChosen = m_lastMovement;
 	Coordinate coord;
-	char movementChosen;
+	Coordinate nextCoord;
 
-	movementChosen = m_contextHistory[m_minElementIndex].getMovements()[0];
-	coord = m_contextHistory[m_minElementIndex].getPosition();
+	while (m_contextHistory.back().getMovements().empty())
+		m_contextHistory.pop_back();
+
+	Context lastContext = m_contextHistory.back();
+	Coordinate contextPos = lastContext.getPosition();
+	std::string contextMovements = lastContext.getMovements();
+
+	coord = lastContext.getPosition();
+
+	double h_n, g_n;
+
+	for (char m : contextMovements)
+	{
+		h_n = 0;
+		g_n = 0;
+		switch (m)
+		{
+		case 'N':
+			nextCoord = Coordinate(contextPos.getLine(), contextPos.getColumn() - 1);
+			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
+			g_n = heuristic(nextCoord, m_startContext.getPosition());
+			gridValues['N'] = (g_n + h_n);
+			break;
+		case 'S':
+			nextCoord = Coordinate(contextPos.getLine(), contextPos.getColumn() + 1);
+			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
+			g_n = heuristic(nextCoord, m_startContext.getPosition());
+			gridValues['S'] = (g_n + h_n);
+			break;
+		case 'E':
+			nextCoord = Coordinate(contextPos.getLine() + 1, contextPos.getColumn());
+			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
+			g_n = heuristic(nextCoord, m_startContext.getPosition());
+			gridValues['E'] = (g_n + h_n);
+			break;
+		case 'W':
+			nextCoord = Coordinate(contextPos.getLine() - 1, contextPos.getColumn());
+			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
+			g_n = heuristic(nextCoord, m_startContext.getPosition());
+			gridValues['W'] = (g_n + h_n);
+			break;
+		default:
+			break;
+		}
+	}
+
+	double minValue = (double)INT_MAX;
+	std::map<char, double>::iterator it;
+	for (it = gridValues.begin(); it != gridValues.end(); ++it) {
+		if (it->second < minValue)
+			minValue = it->second;
+	}
+
+	for (it = gridValues.begin(); it != gridValues.end(); ++it)
+	{
+		if (minValue == it->second)
+		{
+			movementChosen = it->first;
+			break;
+		}
+	}
+
 	coord.move(movementChosen);
 
-	/**
-	 * Quando o algoritmo fizer um movimento, armazenar (N, S, W, E) e excluir como possibilidade do contexto gerado por ele.
-	 * Também remover do contexto final do momento o movimento realizado por ele.
-	 */
-	removeMovePossibilitie(m_contextHistory[m_minElementIndex], movementChosen);
+	m_contextHistory.pop_back();
+
+	removeMovePossibilities(lastContext, movementChosen);
+
+	m_contextHistory.push_back(lastContext);
 
 	switch (movementChosen)
 	{
@@ -51,22 +123,10 @@ Coordinate HeuristicSearcherAStar::makeMovement()
 
 void HeuristicSearcherAStar::handle()
 {
-	if (m_contextHistory[m_minElementIndex].getMovements().empty())
-	{
-		std::cout << "Eliminou index: " << m_minElementIndex << std::endl;
-		m_contextHistory.erase(m_contextHistory.begin() + m_minElementIndex);
-		m_distanceFromObjective.erase(m_distanceFromObjective.begin() + m_minElementIndex);
-		m_minElementIndex = std::min_element(m_distanceFromObjective.begin(), m_distanceFromObjective.end()) - m_distanceFromObjective.begin();
-	}
 
-	std::cout << " ---- Min Element Properties --- " << std::endl << std::endl;
-	std::cout << "Line: " << m_contextHistory[m_minElementIndex].getPosition().getLine() << " | Column: " << m_contextHistory[m_minElementIndex].getPosition().getColumn() << std::endl;
-	std::cout << "Movements: " << m_contextHistory[m_minElementIndex].getMovements() << std::endl;
-	std::cout << "Index: " << m_minElementIndex << std::endl;
-	std::cout << "Distance to objective: " << m_distanceFromObjective[m_minElementIndex] << std::endl;
 }
 
-void HeuristicSearcherAStar::removeMovePossibilitie(Context& context, char move)
+void HeuristicSearcherAStar::removeMovePossibilities(Context& context, char move)
 {
 	std::size_t charPosition = context.getMovements().find(move);
 
@@ -78,17 +138,7 @@ void HeuristicSearcherAStar::removeMovePossibilitie(Context& context, char move)
 	}
 }
 
-void HeuristicSearcherAStar::calculatedDistanceFromObjective(Context context)
+double HeuristicSearcherAStar::heuristic(Coordinate goal, Coordinate move)
 {
-	Coordinate contextCoord = context.getPosition();
-	
-	int lineDistance = abs(contextCoord.getLine() - m_objectiveCoordinate.getLine());
-	int columnDistance = abs(contextCoord.getColumn() - m_objectiveCoordinate.getColumn());
-
-	m_distanceFromObjective.push_back(lineDistance + columnDistance);
-}
-
-void HeuristicSearcherAStar::setObjectiveCoordinate(Coordinate objectiveCoordinate)
-{
-	m_objectiveCoordinate = objectiveCoordinate;
+	return (abs(goal.getLine() - move.getLine()) + abs(goal.getColumn() - move.getColumn()));
 }

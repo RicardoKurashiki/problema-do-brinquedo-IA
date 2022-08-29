@@ -10,9 +10,9 @@ public:
 	void receiveContext(Context recContext);
 	Coordinate makeMovement();
 	void handle();
+	std::vector<Context> m_contextHistory;
 private:
 	void removeMovePossibilitie(Context& context, char move);
-	std::vector<Context> m_contextHistory;
 	char m_lastMovement;
 };
 

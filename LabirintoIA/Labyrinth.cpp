@@ -1,7 +1,9 @@
 #include "Labyrinth.h"
+#include <Windows.h>
 
 Labyrinth::Labyrinth()
 {
+	
 	m_labyrinth = 
 	{
 		"XXXXXXXXXXXXXXXXXXXXX",
@@ -26,6 +28,8 @@ Labyrinth::Labyrinth()
 		"XXXXXXXXXXXXXXXXXXXXX"
 	};
 
+	l_labyrinth = m_labyrinth;
+	
 	m_currentContext.setPosition(findSpot('E'));
 	m_goalContext.setPosition(findSpot('S'));
 
@@ -38,11 +42,12 @@ void Labyrinth::receiveMovement(Coordinate movementPlace)
 		m_labyrinth[movementPlace.getLine()][movementPlace.getColumn()] = '*';
 
 	// Descomente caso queira vez o progresso
-	//for (int i = 0; i < m_labyrinth.size(); i++)
-	//{
-	//	std::cout << m_labyrinth[i] << std::endl;
-	//}
-	//std::cout << std::endl;
+	for (int i = 0; i < m_labyrinth.size(); i++)
+	{
+		std::cout << m_labyrinth[i] << std::endl;
+	}
+	std::cout << std::endl;
+	
 
 	m_currentContext.setPosition(movementPlace);
 	updateContext();
@@ -113,4 +118,20 @@ Coordinate Labyrinth::findSpot(char spot)
 			}
 		}
 	}
+}
+
+void Labyrinth::showSolution(std::vector<Context> contexts)
+{
+	for (Context c : contexts)
+	{
+		system("cls");
+		l_labyrinth[c.getPosition().getLine()][c.getPosition().getColumn()] = '*';
+		for (int i = 0; i < l_labyrinth.size(); i++)
+		{
+			std::cout << l_labyrinth[i] << std::endl;
+		}
+		Sleep(100);
+	}
+
+	
 }
