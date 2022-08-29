@@ -18,6 +18,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BlindSearcherDeep.cpp" />
+    <ClCompile Include="BlindSearcherWidth.cpp" />
+    <ClCompile Include="Context.cpp" />
+    <ClCompile Include="Coordinate.cpp" />
+    <ClCompile Include="Labyrinth.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BlindSearcherDeep.h" />
+    <ClInclude Include="BlindSearcherWidth.h" />
+    <ClInclude Include="Context.h" />
+    <ClInclude Include="Coordinate.h" />
+    <ClInclude Include="Labyrinth.h" />
+    <ClInclude Include="Searcher.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,19 +154,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Context.cpp" />
-    <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="Labirinth.cpp" />
-    <ClCompile Include="LabirintoIA.cpp" />
-    <ClCompile Include="Offset.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Context.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="Labirinth.h" />
-    <ClInclude Include="Offset.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

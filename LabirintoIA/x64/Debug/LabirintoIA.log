@@ -1,2 +1,8 @@
-﻿  LabirintoIA.cpp
+﻿  BlindSearcherDeep.cpp
+  BlindSearcherWidth.cpp
+  Context.cpp
+  Coordinate.cpp
+  Labyrinth.cpp
+  main.cpp
+  Gerando Código...
   LabirintoIA.vcxproj -> C:\Users\ricar\Documents\GitHub\Pessoal\problema-do-brinquedo-IA\x64\Debug\LabirintoIA.exe
