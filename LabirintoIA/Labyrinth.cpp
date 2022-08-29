@@ -42,6 +42,16 @@ Labyrinth::Labyrinth()
 
 void Labyrinth::receiveMovement(Coordinate movementPlace)
 {
+	if (m_labyrinth[movementPlace.getLine()][movementPlace.getColumn()] != 'S')
+		m_labyrinth[movementPlace.getLine()][movementPlace.getColumn()] = '*';
+
+	// Descomente caso queira vez o progresso
+	//for (int i = 0; i < m_labyrinth.size(); i++)
+	//{
+	//	std::cout << m_labyrinth[i] << std::endl;
+	//}
+	//std::cout << std::endl;
+
 	m_currentContext.setPosition(movementPlace);
 	updateContext();
 }

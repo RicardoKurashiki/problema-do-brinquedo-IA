@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <Windows.h>
 #include "Labyrinth.h"
 #include "Searcher.h"
 #include "BlindSearcherDeep.h"
@@ -48,6 +49,7 @@ int main()
 	// Busca cega por profundidade
 	while (!labyrinth.solutionFound())
 	{
+		//system("cls");
 		// Método de busca seleciona que movimento fazer.
 		searcherMovement = deepSearch.makeMovement();
 		// Labirinto recebe o movimento e devolve o contexto.
@@ -58,6 +60,7 @@ int main()
 		deepSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		deepSearch.handle();
+		//Sleep(10);
 	}
 
 	cout << "Jogo finalizado, resultado: \n";
