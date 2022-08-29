@@ -3,6 +3,8 @@
 #include <string>
 #include "Labyrinth.h"
 #include "Searcher.h"
+#include "BlindSearcherDeep.h"
+#include "BlindSearcherWidth.h"
 
 using namespace std;
 
@@ -19,27 +21,46 @@ int main()
 	Context labyrinthContext;
 
 	Labyrinth labyrinth = Labyrinth();
-	Searcher searcher = Searcher();
+	BlindSearcherDeep deepSearch = BlindSearcherDeep();
+	BlindSearcherWidth widthSearch = BlindSearcherWidth();
 
 	// Joga para o método de busca o contexto inicial.
 	labyrinthContext = labyrinth.getCurrentContext();
-	searcher.receiveContext(labyrinthContext);
+	widthSearch.receiveContext(labyrinthContext);
 
+	//// Busca cega por largura
+	//while (!labyrinth.solutionFound())
+	//{
+	//	// Método de busca seleciona que movimento fazer.
+	//	searcherMovement;
+	//	// Labirinto recebe o movimento e devolve o contexto.
+	//	labyrinth.receiveMovement(searcherMovement);
+	//	labyrinthContext = labyrinth.getCurrentContext();
+
+	//	// Método de busca recebe o contexto devolvido.
+	//	// Método de busca "pensa" qual o próximo movimento.
+	//}
+
+	labyrinth = Labyrinth();
+	labyrinthContext = labyrinth.getCurrentContext();
+	deepSearch.receiveContext(labyrinthContext);
+
+	// Busca cega por profundidade
 	while (!labyrinth.solutionFound())
 	{
 		// Método de busca seleciona que movimento fazer.
-		searcherMovement = searcher.makeMovement();
+		searcherMovement = deepSearch.makeMovement();
 		// Labirinto recebe o movimento e devolve o contexto.
 		labyrinth.receiveMovement(searcherMovement);
 		labyrinthContext = labyrinth.getCurrentContext();
 
 		// Método de busca recebe o contexto devolvido.
-		searcher.receiveContext(labyrinthContext);
+		deepSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
-		searcher.think();
+		deepSearch.handle();
 	}
 
-	cout << "Jogo finalizado\n";
+	cout << "Jogo finalizado, resultado: \n";
 }
 
 

@@ -14,8 +14,8 @@ Labyrinth::Labyrinth()
 		"X X     X XXX  X    X",
 		"X X X X X   XX XX XXX",
 		"X X XXX X X     X   X",
-		"E X X X X XXXXX XXX X",
-		"X     X X   X X X   X",
+		"X X X X X XXXXX XXX X",
+		"E     X X   X X X   X",
 		"X XXXXX XXX X XXX X X",
 		"X X       X X   X X X",
 		"X   XXX X X XXX X X S",
@@ -62,22 +62,26 @@ void Labyrinth::updateContext()
 	 * as possibilidades de movimentação.
 	 */
 	if ((line > 0) &&
-		(m_labyrinth[line - 1][column] != 'X'))
+		((m_labyrinth[line - 1][column] == ' ') ||
+		 (m_labyrinth[line - 1][column] == 'S')))
 	{
 		possibleMovements.push_back('N');
 	}
 	if ((line < m_labyrinth.size() - 1) &&
-		(m_labyrinth[line + 1][column] != 'X'))
+		((m_labyrinth[line + 1][column] == ' ') ||
+		 (m_labyrinth[line + 1][column] == 'S')))
 	{
 		possibleMovements.push_back('S');
 	}
 	if ((column > 0) &&
-		(m_labyrinth[line][column - 1] != 'X'))
+		((m_labyrinth[line][column - 1] == ' ') ||
+		 (m_labyrinth[line][column - 1] == 'S')))
 	{
 		possibleMovements.push_back('W');
 	}
 	if ((column < m_labyrinth[0].size()) &&
-		(m_labyrinth[line][column + 1] != 'X'))
+		((m_labyrinth[line][column + 1] == ' ') ||
+		 (m_labyrinth[line][column + 1] == 'S')))
 	{
 		possibleMovements.push_back('E');
 	}

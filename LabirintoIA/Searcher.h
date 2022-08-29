@@ -6,12 +6,9 @@
 class Searcher
 {
 public:
-	Searcher() { m_solutionFinded = false; };
-	void receiveContext(Context recContext);
-	Coordinate makeMovement();
-	void think();
-private:
-	Context m_currentPlace;
-	bool m_solutionFinded;
+	Searcher() {};
+	virtual void receiveContext(Context recContext) = 0;
+	virtual Coordinate makeMovement() = 0;
+	virtual void handle() = 0;
 };
 
