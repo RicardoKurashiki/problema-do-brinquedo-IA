@@ -8,7 +8,7 @@
 class Labyrinth
 {
 public:
-	Labyrinth();
+	Labyrinth(std::vector<std::string> labyrinthLayout);
 	void receiveMovement(Coordinate movementPlace);
 	Context getCurrentContext();
 	Context getGoalContext();

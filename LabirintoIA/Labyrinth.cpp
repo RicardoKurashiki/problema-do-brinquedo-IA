@@ -1,33 +1,10 @@
 #include "Labyrinth.h"
 #include <Windows.h>
 
-Labyrinth::Labyrinth()
+Labyrinth::Labyrinth(std::vector<std::string> labyrinthLayout)
 {
+	m_labyrinth = labyrinthLayout;
 	
-	m_labyrinth = 
-	{
-		"XXXXXXXXXXXXXXXXXXXXX",
-		"X     X     X     X X",
-		"XX XX XXXXX X X X   X",
-		"X   X       X   XXX X",
-		"X X X XXXXXXX XXX   X",
-		"X X   X   X X X   X X",
-		"X XXXXX X X   XXXXX X",
-		"X X     X XXX  X    X",
-		"X X X X X   XX XX XXX",
-		"X X XXX X X     X   X",
-		"E X X X X XXXXX XXX X",
-		"X     X X   X X X   X",
-		"X XXXXX XXX X XXX X X",
-		"X X       X X   X X X",
-		"X   XXX X X XXX X X S",
-		"XXX X X X X X X X XXX",
-		"X X   X X   X   X   X",
-		"X XXX XXXXXXXXX XXX X",
-		"X                 X X",
-		"XXXXXXXXXXXXXXXXXXXXX"
-	};
-
 	l_labyrinth = m_labyrinth;
 	
 	m_currentContext.setPosition(findSpot('E'));

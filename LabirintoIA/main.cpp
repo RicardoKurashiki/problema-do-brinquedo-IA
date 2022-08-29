@@ -24,12 +24,44 @@ int main()
 	Context labyrinthContext;
 	int iterationCounter = 0;
 
-	Labyrinth labyrinth = Labyrinth();
+	// Altere o valor de updateRate para mudar a velocidade de atualizacao labirinto
+	int updateRateWidth = 10; // Uma atualização a cada X ms.
+	int updateRateDeep = 10;
+	int updateRateGreedy = 10;
+	int updateRateAStar = 10;
+	// Digite o E no lugar que deseja comecar no labirinto
+
+	vector<string> laby = 
+	{
+		"XXXXXXXXXXXXXXXXXXXXX",
+		"X     X     X     X X",
+		"XX XX XXXXX X X X   X",
+		"X   X       X   XXX X",
+		"X X X XXXXXXX XXX   X",
+		"X X   X   X X X   X X",
+		"X XXXXX X X   XXXXX X",
+		"X X     X XXX  X    X",
+		"X X X X X   XX XX XXX",
+		"X X XXX X X     X   X",
+		"E X X X X XXXXX XXX X",
+		"X     X X   X X X   X",
+		"X XXXXX XXX X XXX X X",
+		"X X       X X   X X X",
+		"X   XXX X X XXX X X S",
+		"XXX X X X X X X X XXX",
+		"X X   X X   X   X   X",
+		"X XXX XXXXXXXXX XXX X",
+		"X                 X X",
+		"XXXXXXXXXXXXXXXXXXXXX"
+	};
+
+	Labyrinth labyrinth = Labyrinth(laby);
 	BlindSearcherDeep deepSearch = BlindSearcherDeep();
 	BlindSearcherWidth widthSearch = BlindSearcherWidth();
 	HeuristicSearcherGreedy greedySearch = HeuristicSearcherGreedy();
 	HeuristicSearcherAStar aStarSearch = HeuristicSearcherAStar();
 	
+
 	// Joga para o método de busca o contexto inicial.
 	labyrinthContext = labyrinth.getCurrentContext();
 	widthSearch.receiveContext(labyrinthContext);
@@ -49,7 +81,7 @@ int main()
 		widthSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		widthSearch.handle();
-		Sleep(20);
+		Sleep(updateRateWidth);
 		iterationCounter++;
 	}
 
@@ -57,7 +89,7 @@ int main()
 	cout << "Aperte ENTER para continuar";
 	cin.ignore();
 
-	labyrinth = Labyrinth();
+	labyrinth = Labyrinth(laby);
 	labyrinthContext = labyrinth.getCurrentContext();
 	deepSearch.receiveContext(labyrinthContext);
 	iterationCounter = 0;
@@ -77,7 +109,7 @@ int main()
 		deepSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		deepSearch.handle();
-		Sleep(20);
+		Sleep(updateRateDeep);
 		iterationCounter++;
 	}
 	
@@ -87,7 +119,7 @@ int main()
 
 	Context labyrinthGoalContext;
 
-	labyrinth = Labyrinth();
+	labyrinth = Labyrinth(laby);
 	labyrinthContext = labyrinth.getCurrentContext();
 	labyrinthGoalContext = labyrinth.getGoalContext();
 	greedySearch.receiveContext(labyrinthContext);
@@ -109,7 +141,7 @@ int main()
 		greedySearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		greedySearch.handle();
-		Sleep(20);
+		Sleep(updateRateGreedy);
 		iterationCounter++;
 	}
 
@@ -117,7 +149,12 @@ int main()
 	cout << "Aperte ENTER para continuar";
 	cin.ignore();
 
-	labyrinth = Labyrinth();
+	labyrinth.showSolution(greedySearch.m_contextHistory);
+	
+	cout << "Aperte ENTER para continuar";
+	cin.ignore();
+
+	labyrinth = Labyrinth(laby);
 	labyrinthContext = labyrinth.getCurrentContext();
 	labyrinthGoalContext = labyrinth.getGoalContext();
 	aStarSearch.receiveContext(labyrinthContext);
@@ -140,7 +177,7 @@ int main()
 		aStarSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		aStarSearch.handle();
-		Sleep(20);
+		Sleep(updateRateAStar);
 		iterationCounter++;
 	}
 
@@ -148,6 +185,7 @@ int main()
 	cout << "Jogo finalizado.\n";
 	cout << "Aperte ENTER para continuar";
 	cin.ignore();
+
 	system("cls");
 	labyrinth.showSolution(aStarSearch.m_contextHistory);
 }

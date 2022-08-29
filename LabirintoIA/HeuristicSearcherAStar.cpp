@@ -39,37 +39,32 @@ Coordinate HeuristicSearcherAStar::makeMovement()
 
 	coord = lastContext.getPosition();
 
-	double h_n, g_n;
+	double h_n;
 
 	for (char m : contextMovements)
 	{
 		h_n = 0;
-		g_n = 0;
 		switch (m)
 		{
 		case 'N':
 			nextCoord = Coordinate(contextPos.getLine(), contextPos.getColumn() - 1);
 			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
-			g_n = heuristic(nextCoord, m_startContext.getPosition());
-			gridValues['N'] = (g_n + h_n);
+			gridValues['N'] = h_n;
 			break;
 		case 'S':
 			nextCoord = Coordinate(contextPos.getLine(), contextPos.getColumn() + 1);
 			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
-			g_n = heuristic(nextCoord, m_startContext.getPosition());
-			gridValues['S'] = (g_n + h_n);
+			gridValues['S'] = h_n;
 			break;
 		case 'E':
 			nextCoord = Coordinate(contextPos.getLine() + 1, contextPos.getColumn());
 			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
-			g_n = heuristic(nextCoord, m_startContext.getPosition());
-			gridValues['E'] = (g_n + h_n);
+			gridValues['E'] = h_n;
 			break;
 		case 'W':
 			nextCoord = Coordinate(contextPos.getLine() - 1, contextPos.getColumn());
 			h_n = heuristic(m_goalContext.getPosition(), nextCoord);
-			g_n = heuristic(nextCoord, m_startContext.getPosition());
-			gridValues['W'] = (g_n + h_n);
+			gridValues['W'] = h_n;
 			break;
 		default:
 			break;
@@ -140,5 +135,6 @@ void HeuristicSearcherAStar::removeMovePossibilities(Context& context, char move
 
 double HeuristicSearcherAStar::heuristic(Coordinate goal, Coordinate move)
 {
-	return (abs(goal.getLine() - move.getLine()) + abs(goal.getColumn() - move.getColumn()));
+	std::cout << '|' << goal.getLine() << '-' << move.getLine() << "| + |" << goal.getColumn() << '-' << move.getColumn() << '|' << std::endl;
+	return sqrt(pow(abs(goal.getLine() - move.getLine()), 2) + pow(abs(goal.getColumn() - move.getColumn()), 2));
 }
