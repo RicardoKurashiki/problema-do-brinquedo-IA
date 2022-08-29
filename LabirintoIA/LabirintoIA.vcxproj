@@ -23,6 +23,8 @@
     <ClCompile Include="BlindSearcherWidth.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="Coordinate.cpp" />
+    <ClCompile Include="HeuristicSearcherAStar.cpp" />
+    <ClCompile Include="HeuristicSearcherGreedy.cpp" />
     <ClCompile Include="Labyrinth.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -31,6 +33,8 @@
     <ClInclude Include="BlindSearcherWidth.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="Coordinate.h" />
+    <ClInclude Include="HeuristicSearcherAStar.h" />
+    <ClInclude Include="HeuristicSearcherGreedy.h" />
     <ClInclude Include="Labyrinth.h" />
     <ClInclude Include="Searcher.h" />
   </ItemGroup>

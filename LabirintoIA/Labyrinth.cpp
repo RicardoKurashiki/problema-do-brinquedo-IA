@@ -26,16 +26,8 @@ Labyrinth::Labyrinth()
 		"XXXXXXXXXXXXXXXXXXXXX"
 	};
 
-	for (int line = 0; line < m_labyrinth.size(); line++)
-	{
-		for (int column = 0; column < m_labyrinth[line].size(); column++)
-		{
-			if (m_labyrinth[line][column] == 'E')
-			{
-				m_currentContext.setPosition(Coordinate(line, column));
-			}
-		}
-	}
+	m_currentContext.setPosition(findSpot('E'));
+	m_goalContext.setPosition(findSpot('S'));
 
 	updateContext();
 }
@@ -59,6 +51,11 @@ void Labyrinth::receiveMovement(Coordinate movementPlace)
 Context Labyrinth::getCurrentContext()
 {
 	return m_currentContext;
+}
+
+Context Labyrinth::getGoalContext()
+{
+	return m_goalContext;
 }
 
 void Labyrinth::updateContext()
@@ -102,4 +99,18 @@ void Labyrinth::updateContext()
 bool Labyrinth::solutionFound()
 {
 	return m_labyrinth[m_currentContext.getPosition().getLine()][m_currentContext.getPosition().getColumn()] == 'S';
+}
+
+Coordinate Labyrinth::findSpot(char spot)
+{
+	for (int line = 0; line < m_labyrinth.size(); line++)
+	{
+		for (int column = 0; column < m_labyrinth[line].size(); column++)
+		{
+			if (m_labyrinth[line][column] == spot)
+			{
+				return Coordinate(line, column);
+			}
+		}
+	}
 }

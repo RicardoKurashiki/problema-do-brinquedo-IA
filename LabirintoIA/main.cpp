@@ -6,6 +6,7 @@
 #include "Searcher.h"
 #include "BlindSearcherDeep.h"
 #include "BlindSearcherWidth.h"
+#include "HeuristicSearcherGreedy.h"
 
 using namespace std;
 
@@ -24,7 +25,8 @@ int main()
 	Labyrinth labyrinth = Labyrinth();
 	BlindSearcherDeep deepSearch = BlindSearcherDeep();
 	BlindSearcherWidth widthSearch = BlindSearcherWidth();
-
+	HeuristicSearcherGreedy greedySearch = HeuristicSearcherGreedy();
+	
 	// Joga para o método de busca o contexto inicial.
 	labyrinthContext = labyrinth.getCurrentContext();
 	widthSearch.receiveContext(labyrinthContext);
@@ -64,6 +66,29 @@ int main()
 		deepSearch.receiveContext(labyrinthContext);
 		// Método de busca "pensa" qual o próximo movimento.
 		deepSearch.handle();
+		//Sleep(10);
+	}
+
+	labyrinth = Labyrinth();
+	labyrinthContext = labyrinth.getCurrentContext();
+	Context labyrinthGoalContext = labyrinth.getGoalContext();
+	greedySearch.receiveContext(labyrinthContext);
+	greedySearch.receiveGoalContext(labyrinthGoalContext);
+	
+	// Busca heuristica Greedy
+	while (!labyrinth.solutionFound())
+	{
+		//system("cls");
+		// Método de busca seleciona que movimento fazer.
+		searcherMovement = greedySearch.makeMovement();
+		// Labirinto recebe o movimento e devolve o contexto.
+		labyrinth.receiveMovement(searcherMovement);
+		labyrinthContext = labyrinth.getCurrentContext();
+
+		// Método de busca recebe o contexto devolvido.
+		greedySearch.receiveContext(labyrinthContext);
+		// Método de busca "pensa" qual o próximo movimento.
+		greedySearch.handle();
 		//Sleep(10);
 	}
 
